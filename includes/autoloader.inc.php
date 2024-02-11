@@ -1,13 +1,24 @@
 <?php
 
-spl_autoload_register($fullPath);
-    
-function myAutoLoader($classname) {
-    $path = "classes/";
-    $extension = ".class.php";
-    $fullPath = $path . $classname . $extension;
+//automatically includes a class when a class is intantiated
+spl_autoload_register('myAutoLoader');
 
-    include_once $fullPath;
+function myAutoLoader($classname)
+{
+    $url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+    if(strpos($url,'includes') !== false)
+    {
+        $path = '../classes/';
+    }
+
+    else{
+        $path = 'classes/';
+    }
+
+    $extension = '.class.php';
+
+    require_once $path . $classname . $extension;
 }
 
 ?>
